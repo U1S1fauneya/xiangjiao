@@ -48,35 +48,35 @@ export default function OverviewPage() {
           <KpiCard label="待转生产" value="126" change="-4.1% ↘" icon={Factory} color="purple" negative />
         </section>
 
-        <Panel className="mt-3 p-4">
+        <Panel className="mt-3 px-4 py-3">
           <PanelTitle title="增长转化漏斗" />
           <div className="flex items-center gap-3">
             {funnel.map((item, index) => (
               <div key={item.label} className="flex flex-1 items-center gap-2">
                 <div className="w-full">
-                  <div className="mb-2 text-center text-sm font-black text-navy-950">{item.label}</div>
+                  <div className="mb-1.5 text-center text-sm font-black text-navy-950">{item.label}</div>
                   <div
-                    className={`grid h-[96px] place-items-center bg-gradient-to-br ${item.tone} px-2 text-center text-white shadow-[0_14px_24px_rgba(21,91,215,0.16)]`}
+                    className={`grid h-[80px] place-items-center bg-gradient-to-br ${item.tone} px-2 text-center text-white shadow-[0_14px_24px_rgba(21,91,215,0.16)]`}
                     style={{ clipPath: "polygon(0 0, 100% 8%, 86% 100%, 14% 100%)" }}
                   >
-                  <div>
-                      <div className="text-[24px] font-black leading-none">{item.value}</div>
-                      <div className="mt-2 text-xs font-bold opacity-90">较昨日 {index === 4 ? "-4.1%" : "+18.7%"}</div>
+                    <div>
+                      <div className="text-[22px] font-black leading-none">{item.value}</div>
+                      <div className="mt-1.5 text-xs font-bold opacity-90">较昨日 {index === 4 ? "-4.1%" : "+18.7%"}</div>
                     </div>
                   </div>
                 </div>
-                {item.rate ? <div className="mt-8 w-9 text-center text-sm font-black text-growth-blue">→<br />{item.rate}</div> : null}
+                {item.rate ? <div className="mt-7 w-9 text-center text-sm font-black text-growth-blue">→<br />{item.rate}</div> : null}
               </div>
             ))}
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-4 border-t border-slate-100 pt-3 text-center text-sm font-bold text-slate-600">
+          <div className="mt-2.5 grid grid-cols-2 gap-4 border-t border-slate-100 pt-2.5 text-center text-sm font-bold text-slate-600">
             <div>整体转化率 <span className="ml-2 text-growth-blue">0.53%</span></div>
             <div>平均销售周期 <span className="ml-2 text-growth-blue">28.6 天</span></div>
           </div>
         </Panel>
 
         <div className="mt-3 grid grid-cols-[0.85fr_1.65fr] gap-3">
-          <Panel className="p-4">
+          <Panel className="p-3.5">
             <PanelTitle title="今日重点任务" />
             <div className="space-y-2">
               {tasks.map(([name, count, action]) => (
@@ -92,11 +92,11 @@ export default function OverviewPage() {
             </div>
           </Panel>
 
-          <Panel className="p-4">
+          <Panel className="p-3.5">
             <PanelTitle title="核心客户动态" action={<button className="text-xs font-black text-growth-blue">查看更多 ›</button>} />
             <div className="divide-y divide-slate-100">
               {activity.map(([name, tag, detail, time]) => (
-                <div key={name} className="grid grid-cols-[1.15fr_92px_1.3fr_68px] items-center gap-3 py-2 text-xs">
+                <div key={name} className="grid grid-cols-[1.15fr_92px_1.3fr_68px] items-center gap-3 py-1.5 text-xs">
                   <div className="truncate font-black text-navy-950">{name}</div>
                   <div className="rounded-full bg-emerald-50 px-2 py-1 text-center font-black text-emerald-700">{tag}</div>
                   <div className="truncate font-semibold text-slate-600">{detail}</div>
@@ -184,10 +184,10 @@ export default function OverviewPage() {
 
 function DistributionCard({ title, rows }: { title: string; rows: string[][] }) {
   return (
-    <Panel className="p-4">
+    <Panel className="p-3.5">
       <PanelTitle title={title} action={<GhostButton>本月</GhostButton>} />
       <div className="flex items-center gap-5">
-        <Donut value={68} label="全部线索" size={136} />
+        <Donut value={68} label="全部线索" size={124} />
         <div className="flex-1 space-y-2">
           {rows.map(([name, count, rate, color]) => (
             <div key={name} className="grid grid-cols-[12px_1fr_70px_52px] items-center gap-2 text-xs font-semibold text-slate-600">

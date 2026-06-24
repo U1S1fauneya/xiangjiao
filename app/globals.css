@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --text-primary: #061f43;
+  --text-secondary: #51617c;
+  --border-soft: rgba(86, 105, 134, 0.16);
+  --surface: rgba(255, 255, 255, 0.86);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 1240px;
+  margin: 0;
+  color: var(--text-primary);
+  background:
+    radial-gradient(circle at 82% 4%, rgba(21, 91, 215, 0.12), rgba(21, 91, 215, 0) 34%),
+    radial-gradient(circle at 28% 100%, rgba(16, 168, 132, 0.12), rgba(16, 168, 132, 0) 32%),
+    linear-gradient(135deg, #f8fbff 0%, #eef3f8 52%, #f7f4ef 100%);
+  font-family:
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.glass-card {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  box-shadow: 0 14px 34px rgba(26, 42, 73, 0.09);
+  backdrop-filter: blur(18px);
+}
+
+.soft-border {
+  border: 1px solid var(--border-soft);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(82, 99, 125, 0.22);
+  border-radius: 999px;
+}

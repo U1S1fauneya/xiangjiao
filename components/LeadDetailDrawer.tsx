@@ -4,6 +4,7 @@ import { X, ExternalLink, ShieldAlert, Target, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Lead } from "@/data/searchTypes";
 import { ConfidenceBar } from "./ConfidenceBar";
+import { ContactDiscoveryPanel } from "./ContactDiscoveryPanel";
 import { GradeBadge, LeadTypeBadge } from "./LeadTypeBadge";
 
 export function LeadDetailDrawer({
@@ -19,6 +20,9 @@ export function LeadDetailDrawer({
 }) {
   if (!lead) return null;
 
+  const isSimulatedLead = lead.evidence.every((item) => item.url.includes("example.com"));
+  const externalUrl = isSimulatedLead ? "" : getPrimaryExternalUrl(lead);
+
   return (
     <div className="fixed inset-0 z-40">
       <button className="absolute inset-0 bg-navy-950/24" aria-label="关闭详情" onClick={onClose} />
@@ -30,10 +34,24 @@ export function LeadDetailDrawer({
               <GradeBadge grade={lead.grade} />
             </div>
             <h2 className="text-2xl font-black text-navy-950">{lead.companyName}</h2>
-            <a className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-growth-blue" href={`https://${lead.website}`}>
-              {lead.website}
-              <ExternalLink className="h-3.5 w-3.5" />
-            </a>
+            {externalUrl ? (
+              <a
+                className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-growth-blue"
+                href={externalUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {lead.website}
+                <ExternalLink className="h-3.5 w-3.5" />
+              </a>
+            ) : (
+              <div className="mt-2 inline-flex items-center gap-2 text-sm font-bold text-slate-500">
+                <span>{lead.website}</span>
+                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-black text-amber-700">
+                  演示样例，未开放外链
+                </span>
+              </div>
+            )}
           </div>
           <button className="grid h-10 w-10 place-items-center rounded-full bg-slate-100" onClick={onClose}>
             <X className="h-5 w-5" />
@@ -49,6 +67,8 @@ export function LeadDetailDrawer({
             <ConfidenceBar value={lead.confidence} />
           </div>
         </div>
+
+        <ContactDiscoveryPanel leadId={lead.id} sourceUrl={externalUrl} disabled={!externalUrl || isSimulatedLead} />
 
         <Section icon={Sparkles} title="AI 推荐理由">
           {lead.recommendation}
@@ -72,11 +92,19 @@ export function LeadDetailDrawer({
         </div>
 
         <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-          <div className="mb-3 text-sm font-black text-navy-950">模拟网页证据片段</div>
+          <div className="mb-3 text-sm font-black text-navy-950">
+            {isSimulatedLead ? "模拟网页证据片段" : "网页证据片段"}
+          </div>
           {lead.evidence.map((item) => (
             <div key={item.url} className="rounded-xl bg-white p-3 text-sm text-slate-600">
               <div className="font-black text-navy-950">{item.title}</div>
-              <div className="mt-1 text-growth-blue">{item.url}</div>
+              {isSimulatedLead ? (
+                <div className="mt-1 text-slate-400">{item.url}</div>
+              ) : (
+                <a className="mt-1 block break-all text-growth-blue" href={item.url} target="_blank" rel="noreferrer">
+                  {item.url}
+                </a>
+              )}
               <p className="mt-2 leading-6">{item.snippet}</p>
             </div>
           ))}
@@ -121,4 +149,11 @@ function Section({
       <p className="text-sm leading-7 text-slate-600">{children}</p>
     </section>
   );
+}
+
+function getPrimaryExternalUrl(lead: Lead) {
+  const evidenceUrl = lead.evidence.find((item) => /^https?:\/\//i.test(item.url))?.url;
+  if (evidenceUrl) return evidenceUrl;
+  if (/^https?:\/\//i.test(lead.website)) return lead.website;
+  return `https://${lead.website}`;
 }
